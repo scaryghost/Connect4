@@ -29,12 +29,24 @@ public class GraphicsCanvasApplet extends JApplet {
     
     @Override
     public void paint(Graphics g) {
+        def r, c
         Graphics2D g2 = (Graphics2D) g;
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         // draw Ellipse2D.Double
         g2.setStroke(stroke);
-        g2.draw(new Ellipse2D.Double(640, 360, 100, 100));
+        r= 0
+        board.each {row ->
+            c= 0
+            row.each {checker ->
+                if (checker == 1) {
+                    g2.fill(new Ellipse2D.Double(100*c, 100*r, 75, 75));
+                }
+                c++
+            }
+            r++
+        }
+        
         
     }
     

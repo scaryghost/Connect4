@@ -17,9 +17,9 @@ import javax.swing.JFrame;
  *
  * @author etsai
  */
-public class GraphicsCanvas extends JApplet implements Canvas {
+public class GraphicsCanvas implements Canvas {
     JFrame canvasFrame;
-    JApplet canvasApplet;
+    GraphicsCanvasApplet canvasApplet;
     
     public GraphicsCanvas() {
         canvasFrame= new JFrame("Connect4");
@@ -38,8 +38,8 @@ public class GraphicsCanvas extends JApplet implements Canvas {
     
     @Override
     public void drawBoard(List<List<Integer>> board) {
+        canvasApplet.updateBoard(board);
         canvasApplet.repaint();
         //throw new UnsupportedOperationException("Not supported yet.");
     }
-
 }
