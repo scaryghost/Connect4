@@ -10,7 +10,6 @@ import java.awt.Dimension;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.List;
-import javax.swing.JApplet;
 import javax.swing.JFrame;
 
 /**
