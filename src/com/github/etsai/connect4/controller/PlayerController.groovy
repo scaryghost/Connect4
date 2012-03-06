@@ -13,7 +13,12 @@ import com.github.etsai.connect4.*
  */
 class PlayerController implements Controller {
     public void move(Environment env) {
-        throw new UnsupportedOperationException("Not yet implemented");
+        Connect4Core coreInstance= Connect4Core.getInstance()
+        
+        coreInstance.isAIController= false;
+        coreInstance.hasMoved= false;
+        
+        while(!coreInstance.hasMoved);
     }
 }
 
