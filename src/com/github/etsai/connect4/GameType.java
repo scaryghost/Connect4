@@ -7,16 +7,14 @@ package com.github.etsai.connect4;
 
 import com.github.etsai.connect4.canvas.GraphicsCanvas;
 import com.github.etsai.connect4.canvas.TextCanvas;
+import com.github.etsai.connect4.gametype.GameTypeImpl;
 
 /**
  *
  * @author etsai
  */
-public class GameType {
+public abstract class GameType {
     private static GameType instance= null;
-    private Controller currentController= null;
-    private Environment env= new Environment();
-    private Canvas canvas;
     
     public static void init(String[] args) {
         boolean textMode= false;
@@ -33,7 +31,7 @@ public class GameType {
         } else {
             canvas= new GraphicsCanvas();
         }
-        instance= new GameType(canvas);
+        instance= new GameTypeImpl(canvas);
     }
     public GameType getInstance() throws Exception {
         if (instance == null) {
@@ -41,8 +39,6 @@ public class GameType {
         }
         return instance;
     }
-    
-    private GameType(Canvas canvas) {
-        this.canvas= canvas;
-    }
+     
+    abstract public boolean isGameOver();
 }
