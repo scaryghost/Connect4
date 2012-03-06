@@ -3,30 +3,32 @@
  * and open the template in the editor.
  */
 
-package com.github.etsai.connect4.canvas;
+package com.github.etsai.connect4.canvas
 
-import com.github.etsai.connect4.Environment;
+import com.github.etsai.connect4.*
 
-import java.awt.*;
-import java.awt.geom.Ellipse2D;
-import java.util.List;
-import javax.swing.JApplet;
+import java.awt.*
+import java.awt.event.*
+import java.awt.geom.Ellipse2D
+import java.awt.geom.Rectangle2D
+import java.util.List
+import javax.swing.JApplet
 
 /**
  *
  * @author etsai
  */
-public class GraphicsCanvasApplet extends JApplet {
-    private List<List<Integer>> board;
-    final static Color bg = Color.white;
-    final static Color fgBlack = Color.black;
-    final static Color fgRed= Color.red;
-    final static BasicStroke stroke = new BasicStroke(2.0f);
+public class GraphicsCanvasApplet extends JApplet implements MouseListener, MouseMotionListener {
+    private def cursorRowCol= null
+    private def board;
+    final static def stroke = new BasicStroke(2.0f);
 
     @Override
     public void init() {
         //Initialize drawing colors
-        setBackground(bg);
+        setBackground(Color.white);
+        addMouseListener( this );
+        addMouseMotionListener( this );
     }
     
     @Override
@@ -38,15 +40,28 @@ public class GraphicsCanvasApplet extends JApplet {
         // draw Ellipse2D.Double
         g2.setStroke(stroke);
         r= 0
+        g2.setColor(Color.yellow)
+        g2.fill(new Rectangle2D.Double(50,0,800,720))
         board.each {row ->
-            c= 0
+            c= 1
             row.each {checker ->
                 if (checker == Environment.CHECKER_BLACK) {
-                    g2.setColor(fgBlack)
-                    g2.fill(new Ellipse2D.Double(100*c, 100*r, 75, 75))
+                    g2.setColor(Color.black)
+                    g2.fill(new Ellipse2D.Double(100*c, 100*r+50, 75, 75))
                 } else if (checker == Environment.CHECKER_RED) {
-                    g2.setColor(fgRed)
-                    g2.fill(new Ellipse2D.Double(100*c, 100*r, 75, 75))
+                    g2.setColor(Color.red)
+                    g2.fill(new Ellipse2D.Double(100*c, 100*r+50, 75, 75))
+                } else if (checker == Environment.CHECKER_EMPTY) {
+                    if (cursorRowCol != null && 
+                        cursorRowCol[0] == r && cursorRowCol[1] == c - 1) {
+                        g2.setColor(Color.gray)
+                        g2.fill(new Ellipse2D.Double(100*c, 100*r+50, 75, 75))
+                        cursorRowCol= null
+                    } else {
+                        g2.setColor(Color.white)
+                        g2.fill(new Ellipse2D.Double(100*c, 100*r+50, 75, 75))
+                    }
+                    
                 }
                 c++
             }
@@ -56,7 +71,50 @@ public class GraphicsCanvasApplet extends JApplet {
         
     }
     
+    public void mousePressed( MouseEvent e ) {  // called after a button is pressed down
+      //isButtonPressed = true;
+      // "Consume" the event so it won't be processed in the
+      // default manner by the source which generated it.
+      e.consume();
+    }
+    public void mouseReleased( MouseEvent e ) {  // called after a button is released
+      //isButtonPressed = false;
+      e.consume();
+    }
+    public void mouseMoved( MouseEvent e ) {  // called during motion when no buttons are down
+        def coreInstance= Connect4Core.getInstance()
+        def mx = e.getX();
+        def my = e.getY();
+      
+        (1 .. 7).each {index ->
+            if (mx > 100*index && mx < (100*index)+75) {
+                cursorRowCol= [coreInstance.env.getNextRow(index-1), index-1]
+            }
+        }
+        repaint()
+        e.consume();
+    }
+   
     public void updateBoard(List<List<Integer>> board) {
         this.board= board;
     }
+    
+    public void mouseEntered( MouseEvent e ) {
+      // called when the pointer enters the applet's rectangular area
+      e.consume();
+    }
+    public void mouseExited( MouseEvent e ) {
+      // called when the pointer leaves the applet's rectangular area
+      e.consume();
+    }
+    public void mouseClicked( MouseEvent e ) {
+      // called after a press and release of a mouse button
+      // with no motion in between
+      // (If the user presses, drags, and then releases, there will be
+      // no click event generated.)
+      e.consume();
+    }
+    public void mouseDragged( MouseEvent e ) {  // called during motion with buttons down
+      e.consume();
+   }
 }

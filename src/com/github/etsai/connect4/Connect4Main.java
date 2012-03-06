@@ -39,6 +39,7 @@ public class Connect4Main {
             int checker= (i%2 == 0 ? Environment.CHECKER_BLACK : Environment.CHECKER_RED);
             myEnv.addChecker(rndGen.nextInt(Environment.MAX_COLS),checker);
         }
+        Connect4Core.getInstance().env= myEnv;
         myEnv.drawBoard(myCanvas);
     }
 }
