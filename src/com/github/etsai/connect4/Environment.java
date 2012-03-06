@@ -5,6 +5,7 @@
 
 package com.github.etsai.connect4;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,6 +23,21 @@ public class Environment {
     private List<List<Integer>> board;
     private List<Integer> checkerRows;
     
+    public Environment() {
+        checkerRows= new ArrayList<>(MAX_COLS);
+        board= new ArrayList<>(MAX_ROWS);
+        
+        for(int r= 0; r < MAX_ROWS; r++) {
+            ArrayList<Integer> temp= new ArrayList<>(MAX_COLS);
+            for(int c= 0; c < MAX_COLS; c++) {
+                temp.add(CHECKER_EMPTY);
+            }
+            board.add(r,temp);
+        }
+        for(int c= 0; c < MAX_COLS; c++) {
+            checkerRows.add(c,MAX_ROWS-1);
+        }
+    }
     public void addChecker(int column, int checker) throws Exception {
         int topRow= checkerRows.get(column);
         List<Integer> currentRow;
