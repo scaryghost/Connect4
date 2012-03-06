@@ -11,35 +11,10 @@ import com.github.etsai.connect4.*
  *
  * @author eric
  */
-class GameTypeImpl extends GameType {
+public class GameTypeImpl extends GameType {
     private Controller currentController= null;
     private Environment env= new Environment();
     private Canvas canvas;
-    
-    private enum Directions {
-        UP_LEFT(-1,-1),
-        UP(-1,0),
-        UP_RIGHT(-1,1),
-        LEFT(0,-1),
-        RIGHT(0,1),
-        DOWN_LEFT(1,-1),
-        DOWN(1,0),
-        DOWN_RIGHT(1,1);
-        
-        private int rowOffset
-        private int colOffset
-        
-        public Directions(rowOffset, colOffset) {
-            this.rowOffset= rowOffset
-            this.colOffset= colOffset
-        }
-        public int getRowOffset() {
-            return rowOffset
-        }
-        public int getColOffset() {
-            return colOffset
-        }
-    }
     
     public GameTypeImpl(Canvas canvas) {
         this.canvas= canvas
@@ -48,7 +23,9 @@ class GameTypeImpl extends GameType {
     @Override
     public boolean isGameOver() {
         def checker
-        def directionList= Directions.values()
+        def directionList= [[-1,-1], [-1,0], [-1,1],
+                [0,-1], [0,1], [1,-1],
+                [1,0],[1,1]]
         def directionIndex
         
         def check= {row, col, depth ->
@@ -61,8 +38,8 @@ class GameTypeImpl extends GameType {
                 return equal
             }
             
-            return equal && call(row + directionList[directionIndex].getRowOffset(), 
-                col + directionList[directionIndex].getColOFfset(), depth + 1)
+            return equal && call(row + directionList[directionIndex][0], 
+                col + directionList[directionIndex][1], depth + 1)
         }
 
         (0 ..< Environment.MAX_ROWS).each {row ->
