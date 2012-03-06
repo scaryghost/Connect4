@@ -20,7 +20,9 @@ import javax.swing.JApplet
  */
 public class GraphicsCanvasApplet extends JApplet implements MouseListener, MouseMotionListener {
     private def cursorRowCol= null
-    private def board;
+    private def board
+    private def isButtonPressed
+    private def player= 0
     final static def stroke = new BasicStroke(2.0f);
 
     @Override
@@ -72,23 +74,39 @@ public class GraphicsCanvasApplet extends JApplet implements MouseListener, Mous
     }
     
     public void mousePressed( MouseEvent e ) {  // called after a button is pressed down
-      //isButtonPressed = true;
+      isButtonPressed = true;
       // "Consume" the event so it won't be processed in the
       // default manner by the source which generated it.
       e.consume();
     }
     public void mouseReleased( MouseEvent e ) {  // called after a button is released
-      //isButtonPressed = false;
-      e.consume();
+        isButtonPressed = false;
+        def coreInstance= Connect4Core.getInstance()
+        def mx = e.getX();
+        def my = e.getY();
+        
+        for (index in 1 .. 7) {
+            if (mx > 100*index && mx < (100*index)+75) {
+                if (player == 0) {
+                    coreInstance.env.addChecker(index-1,Environment.CHECKER_BLACK)
+                } else {
+                    coreInstance.env.addChecker(index-1,Environment.CHECKER_RED)
+                }
+                player= (player+1)%2
+                break
+            }
+        }
+        e.consume();
     }
     public void mouseMoved( MouseEvent e ) {  // called during motion when no buttons are down
         def coreInstance= Connect4Core.getInstance()
         def mx = e.getX();
         def my = e.getY();
       
-        (1 .. 7).each {index ->
+        for (index in 1 .. 7) {
             if (mx > 100*index && mx < (100*index)+75) {
                 cursorRowCol= [coreInstance.env.getNextRow(index-1), index-1]
+                break
             }
         }
         repaint()
