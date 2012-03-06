@@ -17,16 +17,16 @@ public abstract class GameType {
     private static GameType instance= null;
     
     public static void init(String[] args) {
-        boolean textMode= false;
+        Connect4Core coreInstance= Connect4Core.getInstance();
         Canvas canvas;
         
         for (String s: args) {
             if ("--text-mode".equals(s)) {
-                textMode= true;
+                coreInstance.textMode= true;
             }
         }
         
-        if (textMode) {
+        if (coreInstance.textMode) {
             canvas= new TextCanvas();
         } else {
             canvas= new GraphicsCanvas();
@@ -41,4 +41,5 @@ public abstract class GameType {
     }
      
     abstract public boolean isGameOver();
+    abstract public void move();
 }

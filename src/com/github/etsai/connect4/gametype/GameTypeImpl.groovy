@@ -12,9 +12,9 @@ import com.github.etsai.connect4.*
  * @author eric
  */
 public class GameTypeImpl extends GameType {
-    private Controller currentController= null;
-    private Environment env= new Environment();
-    private Canvas canvas;
+    private def controllerListIt= null;
+    private def env= new Environment();
+    private def canvas;
     
     public GameTypeImpl(Canvas canvas) {
         this.canvas= canvas
@@ -53,6 +53,14 @@ public class GameTypeImpl extends GameType {
                 }
             }
         }
+    }
+    @Override
+    public void move() {
+        if (controllerListIt == null || !controllerListIt.hasNext()) {
+            controllerListIt= Connect4Core.getInstance().controllerList.iterator();
+        }
+        controllerListIt.next().move(env)
+        env.drawBoard(canvas);
     }
 }
 
