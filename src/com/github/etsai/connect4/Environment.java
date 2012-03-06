@@ -39,7 +39,7 @@ public class Environment {
             board.add(r,temp);
         }
         for(int c= 0; c < MAX_COLS; c++) {
-            checkerRows.add(c,MAX_ROWS-1);
+            checkerRows.add(c,MAX_ROWS);
         }
     }
     public void addChecker(int column, int checker) throws Exception {
