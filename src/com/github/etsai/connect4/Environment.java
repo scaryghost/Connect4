@@ -23,6 +23,10 @@ public class Environment {
     private List<List<Integer>> board;
     private List<Integer> checkerRows;
     
+    public static boolean outOfBounds(int row, int col) {
+        return (row < 0 || row >= MAX_ROWS 
+                || col < 0 || col >= MAX_COLS);
+    }
     public Environment() {
         checkerRows= new ArrayList<>(MAX_COLS);
         board= new ArrayList<>(MAX_ROWS);
@@ -63,6 +67,9 @@ public class Environment {
         currentRow= board.get(topRow);
         currentRow.set(column, CHECKER_EMPTY);
         board.set(topRow, currentRow);
+    }
+    public Integer getChecker(int row, int col) {
+        return board.get(row).get(col);
     }
     public void drawBoard(Canvas myCanvas) {
         myCanvas.drawBoard(board);
