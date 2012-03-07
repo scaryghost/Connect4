@@ -5,7 +5,7 @@
 
 package com.github.etsai.connect4.canvas
 
-import com.github.etsai.connect4.Canvas
+import com.github.etsai.connect4.*
 
 /**
  *
@@ -14,13 +14,14 @@ import com.github.etsai.connect4.Canvas
 class TextCanvas implements Canvas {
     public TextCanvas() {
     }
-    public void drawBoard(List<List<Integer> > board) {
+    public void drawBoard() {
         def rowString
+        def coreInstance= Connect4Core.getInstance();
         
-        board.each {row ->
+        (0 ..< Environment.MAX_ROWS).each {row ->
             rowString= ""
-            row.each {checker ->
-                rowString+= checker
+            (0 ..< Environment.MAX_COLS).each {col ->
+                rowString+= coreInstance.env.getChecker(row,col)
             }
             println rowString
         }

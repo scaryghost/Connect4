@@ -36,8 +36,7 @@ public class GraphicsCanvas implements Canvas {
     }
     
     @Override
-    public void drawBoard(List<List<Integer>> board) {
-        canvasApplet.updateBoard(board);
+    public void drawBoard() {
         canvasApplet.repaint();
         //throw new UnsupportedOperationException("Not supported yet.");
     }

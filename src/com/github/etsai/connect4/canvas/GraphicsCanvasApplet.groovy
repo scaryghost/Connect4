@@ -20,9 +20,7 @@ import javax.swing.JApplet
  */
 public class GraphicsCanvasApplet extends JApplet implements MouseListener, MouseMotionListener {
     private def cursorRowCol= null
-    private def board
     private def isButtonPressed
-    private def player= 0
     final static def stroke = new BasicStroke(2.0f);
 
     @Override
@@ -35,39 +33,36 @@ public class GraphicsCanvasApplet extends JApplet implements MouseListener, Mous
     
     @Override
     public void paint(Graphics g) {
-        def r, c
+        def coreInstance= Connect4Core.getInstance();
         Graphics2D g2 = (Graphics2D) g;
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         // draw Ellipse2D.Double
         g2.setStroke(stroke);
-        r= 0
         g2.setColor(Color.yellow)
         g2.fill(new Rectangle2D.Double(50,0,800,720))
-        board.each {row ->
-            c= 1
-            row.each {checker ->
+        (0 ..< Environment.MAX_ROWS).each {row ->
+            (0 ..< Environment.MAX_COLS).each {col ->
+                def checker= coreInstance.env.getChecker(row,col)
                 if (checker == Environment.CHECKER_BLACK) {
                     g2.setColor(Color.black)
-                    g2.fill(new Ellipse2D.Double(100*c, 100*r+50, 75, 75))
+                    g2.fill(new Ellipse2D.Double(100*(col+1), 100*row+50, 75, 75))
                 } else if (checker == Environment.CHECKER_RED) {
                     g2.setColor(Color.red)
-                    g2.fill(new Ellipse2D.Double(100*c, 100*r+50, 75, 75))
+                    g2.fill(new Ellipse2D.Double(100*(col+1), 100*row+50, 75, 75))
                 } else if (checker == Environment.CHECKER_EMPTY) {
                     if (cursorRowCol != null && 
-                        cursorRowCol[0] == r && cursorRowCol[1] == c - 1) {
+                        cursorRowCol[0] == row && cursorRowCol[1] == col) {
                         g2.setColor(Color.gray)
-                        g2.fill(new Ellipse2D.Double(100*c, 100*r+50, 75, 75))
+                        g2.fill(new Ellipse2D.Double(100*(col+1), 100*row+50, 75, 75))
                         cursorRowCol= null
                     } else {
                         g2.setColor(Color.white)
-                        g2.fill(new Ellipse2D.Double(100*c, 100*r+50, 75, 75))
+                        g2.fill(new Ellipse2D.Double(100*(col+1), 100*row+50, 75, 75))
                     }
                     
                 }
-                c++
             }
-            r++
         }
         
         
@@ -87,12 +82,12 @@ public class GraphicsCanvasApplet extends JApplet implements MouseListener, Mous
         
         for (index in 1 .. 7) {
             if (mx > 100*index && mx < (100*index)+75) {
-                if (player == 0) {
+                if (GameType.getInstance().getCurrentPlayer() == 0) {
                     coreInstance.env.addChecker(index-1,Environment.CHECKER_BLACK)
                 } else {
                     coreInstance.env.addChecker(index-1,Environment.CHECKER_RED)
                 }
-                player= (player+1)%2
+                GameType.getInstance().getCurrentController().setHasMoved()
                 break
             }
         }

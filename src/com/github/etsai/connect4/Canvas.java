@@ -11,5 +11,5 @@ import java.util.List;
  * @author etsai
  */
 public interface Canvas {
-    public void drawBoard(List<List<Integer> > board);
+    public void drawBoard();
 }
