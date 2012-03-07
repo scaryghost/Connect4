@@ -80,36 +80,36 @@ public class GraphicsCanvasApplet extends JApplet implements MouseListener, Mous
         def mx = e.getX();
         def my = e.getY();
         
-        for (index in 1 .. 7) {
-            if (mx > 100*index && mx < (100*index)+75) {
-                if (GameType.getInstance().getCurrentPlayer() == 0) {
-                    coreInstance.env.addChecker(index-1,Environment.CHECKER_BLACK)
-                } else {
-                    coreInstance.env.addChecker(index-1,Environment.CHECKER_RED)
+        if (GameType.getInstance().getGameState() == GameType.State.PLAYING) {
+            for (index in 1 .. 7) {
+                if (mx > 100*index && mx < (100*index)+75) {
+                    if (GameType.getInstance().getCurrentPlayer() == 0) {
+                        coreInstance.env.addChecker(index-1,Environment.CHECKER_BLACK)
+                    } else {
+                        coreInstance.env.addChecker(index-1,Environment.CHECKER_RED)
+                    }
+                    GameType.getInstance().getCurrentController().setHasMoved()
+                    break
                 }
-                GameType.getInstance().getCurrentController().setHasMoved()
-                break
             }
         }
-        e.consume();
+        e.consume();        
     }
     public void mouseMoved( MouseEvent e ) {  // called during motion when no buttons are down
         def coreInstance= Connect4Core.getInstance()
         def mx = e.getX();
         def my = e.getY();
       
-        for (index in 1 .. 7) {
-            if (mx > 100*index && mx < (100*index)+75) {
-                cursorRowCol= [coreInstance.env.getNextRow(index-1), index-1]
-                break
+        if (GameType.getInstance().getGameState() == GameType.State.PLAYING) {
+            for (index in 1 .. 7) {
+                if (mx > 100*index && mx < (100*index)+75) {
+                    cursorRowCol= [coreInstance.env.getNextRow(index-1), index-1]
+                    break
+                }
             }
         }
         repaint()
         e.consume();
-    }
-   
-    public void updateBoard(List<List<Integer>> board) {
-        this.board= board;
     }
     
     public void mouseEntered( MouseEvent e ) {

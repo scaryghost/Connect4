@@ -14,6 +14,7 @@ import com.github.etsai.connect4.controller.*
  */
 public class GameTypeImpl extends GameType {
     private Integer player= 1;
+    private GameType.State gameState= GameType.State.PLAYING;
     
     public GameTypeImpl(Canvas canvas) {
         def coreInstance= Connect4Core.getInstance()
@@ -40,7 +41,7 @@ public class GameTypeImpl extends GameType {
             
             def equal= (checker != Environment.CHECKER_EMPTY 
                 && coreInstance.env.getChecker(row,col) == checker)
-            if (depth == 4) {
+            if (depth == 3) {
                 return equal
             }
             
@@ -48,10 +49,10 @@ public class GameTypeImpl extends GameType {
                 col + directionList[directionIndex][1], depth + 1)
         }
 
-        (0 ..< Environment.MAX_ROWS).each {row ->
-            (0 ..< Environment.MAX_COLS).each {col ->
+        for(row in 0 ..< Environment.MAX_ROWS) {
+            for(col in 0 ..< Environment.MAX_COLS) {
                 checker= coreInstance.env.getChecker(row, col)
-                (0 ..< directionList.size()).each {index ->
+                for(index in 0 ..< directionList.size()) {
                     directionIndex= index
                     if (check(row, col, 0)) {
                         return true
@@ -59,8 +60,13 @@ public class GameTypeImpl extends GameType {
                 }
             }
         }
+        return false
     }
     
+    @Override
+    public GameType.State getGameState() {
+        return gameState
+    }
     @Override
     public Controller getCurrentController() {
         return Connect4Core.getInstance().controllerList.get(player);
@@ -78,6 +84,7 @@ public class GameTypeImpl extends GameType {
             coreInstance.canvas.drawBoard()
             player= (player + 1) % coreInstance.controllerList.size()
         }
+        gameState= GameType.State.END
     }
 }
 

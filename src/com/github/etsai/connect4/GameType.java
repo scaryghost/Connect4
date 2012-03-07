@@ -16,6 +16,11 @@ import com.github.etsai.connect4.gametype.GameTypeImpl;
 public abstract class GameType {
     private static GameType instance= null;
     
+    public enum State {
+        PLAYING,
+        END;
+    }
+    
     public static void init(String[] args) {
         Connect4Core coreInstance= Connect4Core.getInstance();
         Canvas canvas;
@@ -39,8 +44,9 @@ public abstract class GameType {
         }
         return instance;
     }
-     
-    abstract public boolean isGameOver();
+    
+    abstract public State getGameState();
+    abstract protected boolean isGameOver();
     abstract public Controller getCurrentController();
     abstract public Integer getCurrentPlayer();
     abstract public void begin();
