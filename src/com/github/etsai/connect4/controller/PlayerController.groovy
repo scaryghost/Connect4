@@ -20,7 +20,7 @@ class PlayerController implements Controller {
         notifyAll()
     }
     @Override
-    public synchronized void move(Environment env) {
+    public synchronized void move() {
         hasMoved= false;
         while(!hasMoved) {
             try {

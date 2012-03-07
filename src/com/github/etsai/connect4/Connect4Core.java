@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class Connect4Core {
     private static Connect4Core instance;
     public ArrayList<Controller> controllerList= new ArrayList<>();
-    public boolean textMode;
+    public boolean textMode= false;
     public boolean isAIController;
     public boolean hasMoved;
     public Environment env= new Environment();

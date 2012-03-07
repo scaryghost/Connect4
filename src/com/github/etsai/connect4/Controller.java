@@ -9,6 +9,6 @@ package com.github.etsai.connect4;
  * @author etsai
  */
 public interface Controller {
-    public void move(Environment env);
+    public void move();
     public void setHasMoved();
 }

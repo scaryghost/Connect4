@@ -23,7 +23,6 @@ public abstract class GameType {
     
     public static void init(String[] args) {
         Connect4Core coreInstance= Connect4Core.getInstance();
-        Canvas canvas;
         
         for (String s: args) {
             if ("--text-mode".equals(s)) {
@@ -31,12 +30,7 @@ public abstract class GameType {
             }
         }
         
-        if (coreInstance.textMode) {
-            canvas= new TextCanvas();
-        } else {
-            canvas= new GraphicsCanvas();
-        }
-        instance= new GameTypeImpl(canvas);
+        instance= new GameTypeImpl();
     }
     public static GameType getInstance() throws Exception {
         if (instance == null) {

@@ -10,7 +10,7 @@ import java.util.List;
 
 /**
  *
- * @author eric
+ * @author etsai
  */
 public class Environment {
     public final static Integer CHECKER_RED= -1;

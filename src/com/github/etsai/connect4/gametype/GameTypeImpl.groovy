@@ -7,6 +7,7 @@ package com.github.etsai.connect4.gametype
 
 import com.github.etsai.connect4.*
 import com.github.etsai.connect4.controller.*
+import com.github.etsai.connect4.canvas.*
 
 /**
  *
@@ -16,12 +17,19 @@ public class GameTypeImpl extends GameType {
     private Integer player= 1;
     private GameType.State gameState= GameType.State.PLAYING;
     
-    public GameTypeImpl(Canvas canvas) {
+    public GameTypeImpl() {
         def coreInstance= Connect4Core.getInstance()
-        coreInstance.canvas= canvas
         
-        coreInstance.controllerList.add(new PlayerController())
-        coreInstance.controllerList.add(new PlayerController())
+        if (coreInstance.textMode) {
+            coreInstance.canvas= new TextCanvas();
+            coreInstance.controllerList.add(new PlayerTextController())
+            coreInstance.controllerList.add(new PlayerTextController())
+        } else {
+            coreInstance.canvas= new GraphicsCanvas();
+            coreInstance.controllerList.add(new PlayerController())
+            coreInstance.controllerList.add(new PlayerController())
+        }
+        
         
     }
     
@@ -80,7 +88,7 @@ public class GameTypeImpl extends GameType {
         def coreInstance= Connect4Core.getInstance()
         
         while(!isGameOver()) {
-            coreInstance.controllerList.get(player).move(coreInstance.env)
+            coreInstance.controllerList.get(player).move()
             coreInstance.canvas.drawBoard()
             player= (player + 1) % coreInstance.controllerList.size()
         }
