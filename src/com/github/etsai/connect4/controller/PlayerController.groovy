@@ -12,7 +12,7 @@ import com.github.etsai.connect4.*
  * @author etsai
  */
 class PlayerController implements Controller {
-    public boolean hasMoved= false
+    private boolean hasMoved
     
     @Override
     public void setHasMoved() {
@@ -21,9 +21,9 @@ class PlayerController implements Controller {
     @Override
     public void move(Environment env) {
         hasMoved= false;
-        println "Yee HAW!"
-        while(!hasMoved);
-        println "Done moving!"
+        while(!hasMoved) {
+            Thread.sleep(100)
+        }
     }
 }
 
