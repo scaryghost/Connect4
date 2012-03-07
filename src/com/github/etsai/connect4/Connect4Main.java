@@ -4,10 +4,6 @@
  */
 package com.github.etsai.connect4;
 
-import com.github.etsai.connect4.canvas.GraphicsCanvas;
-import com.github.etsai.connect4.canvas.TextCanvas;
-import java.util.Random;
-
 /**
  *
  * @author etsai
