@@ -6,17 +6,22 @@
 package com.github.etsai.connect4.gametype
 
 import com.github.etsai.connect4.*
+import com.github.etsai.connect4.controller.*
 
 /**
  *
  * @author eric
  */
 public class GameTypeImpl extends GameType {
-    private def controllerListIt= null;
-
+    private Integer player= 1;
+    
     public GameTypeImpl(Canvas canvas) {
         def coreInstance= Connect4Core.getInstance()
         coreInstance.canvas= canvas
+        
+        coreInstance.controllerList.add(new PlayerController())
+        coreInstance.controllerList.add(new PlayerController())
+        
     }
     
     @Override
@@ -55,14 +60,24 @@ public class GameTypeImpl extends GameType {
             }
         }
     }
+    
     @Override
-    public void move() {
+    public Controller getCurrentController() {
+        return Connect4Core.getInstance().controllerList.get(player);
+    }
+    @Override
+    public Integer getCurrentPlayer() {
+        return player
+    }
+    @Override
+    public void begin() {
         def coreInstance= Connect4Core.getInstance()
-        if (controllerListIt == null || !controllerListIt.hasNext()) {
-            controllerListIt= Connect4Core.getInstance().controllerList.iterator();
+        
+        while(!isGameOver()) {
+            coreInstance.controllerList.get(player).move(coreInstance.env)
+            coreInstance.canvas.drawBoard()
+            player= (player + 1) % coreInstance.controllerList.size()
         }
-        controllerListIt.next().move(coreInstance.env)
-        coreInstance.env.drawBoard(coreInstance.canvas);
     }
 }
 

@@ -12,13 +12,18 @@ import com.github.etsai.connect4.*
  * @author etsai
  */
 class PlayerController implements Controller {
+    public boolean hasMoved= false
+    
+    @Override
+    public void setHasMoved() {
+        hasMoved= true
+    }
+    @Override
     public void move(Environment env) {
-        Connect4Core coreInstance= Connect4Core.getInstance()
-        
-        coreInstance.isAIController= false;
-        coreInstance.hasMoved= false;
-        
-        while(!coreInstance.hasMoved);
+        hasMoved= false;
+        println "Yee HAW!"
+        while(!hasMoved);
+        println "Done moving!"
     }
 }
 
