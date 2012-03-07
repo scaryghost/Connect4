@@ -15,14 +15,18 @@ class PlayerController implements Controller {
     private boolean hasMoved
     
     @Override
-    public void setHasMoved() {
+    public synchronized void setHasMoved() {
         hasMoved= true
+        notifyAll()
     }
     @Override
-    public void move(Environment env) {
+    public synchronized void move(Environment env) {
         hasMoved= false;
         while(!hasMoved) {
-            Thread.sleep(100)
+            try {
+                wait()
+            } catch (InterruptedException e) {
+            }
         }
     }
 }
