@@ -71,9 +71,6 @@ public class Environment {
     public Integer getChecker(int row, int col) {
         return board.get(row).get(col);
     }
-    public void drawBoard(Canvas myCanvas) {
-        myCanvas.drawBoard(board);
-    }
     public Integer getNextRow(int col) {
         return checkerRows.get(col)-1;
     }
