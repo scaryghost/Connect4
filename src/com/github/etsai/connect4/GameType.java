@@ -33,7 +33,7 @@ public abstract class GameType {
         }
         instance= new GameTypeImpl(canvas);
     }
-    public GameType getInstance() throws Exception {
+    public static GameType getInstance() throws Exception {
         if (instance == null) {
             throw new Exception("GameType not initialized yet!");
         }
@@ -41,5 +41,7 @@ public abstract class GameType {
     }
      
     abstract public boolean isGameOver();
-    abstract public void move();
+    abstract public Controller getCurrentController();
+    abstract public Integer getCurrentPlayer();
+    abstract public void begin();
 }
